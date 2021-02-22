@@ -48,6 +48,7 @@ const LabelContainer = styled.label`
   span {
     font-weight: bold;
     font-size: 15px;
+    color: white;
   }
 `
 

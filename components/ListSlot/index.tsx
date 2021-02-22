@@ -14,13 +14,13 @@ const ListSlots: FunctionComponent<PageProps> = ({data}) => {
     
     const [listSlot, setListSlot] = useState<Game[]>([])
     const [listCategory, setListCategory] = useState<string[]>([])
-    const [ListcategorySelected, setListCategorySelected] = useState<string[]>([])
+    const [listcategorySelected, setListCategorySelected] = useState<string[]>([])
 
     const {searchName} = useContext(searchContext)
 
     const filterByCategory = (category: string, checked: boolean) => {
     
-        let listCategorySelectedClone: string[] = [...[], ...ListcategorySelected]
+        let listCategorySelectedClone: string[] = [...[], ...listcategorySelected]
 
         if (checked) {
             listCategorySelectedClone.push(category)
@@ -64,18 +64,20 @@ const ListSlots: FunctionComponent<PageProps> = ({data}) => {
 
     useEffect(() => {
 
+        if (!listcategorySelected.length) {
+            setListSlot(data)
+            return;
+        }
+
         const listSlotFiltered = data.filter( (slot: Game) => {
             
-            if (ListcategorySelected.length) {
-                return ListcategorySelected.some((categorySelected) => slot.categories.indexOf(categorySelected) !== -1)
-            } else {
-                return slot
-            }
+            if (listcategorySelected.length === slot.categories.length) {
+                return listcategorySelected.every(categorySelected => slot.categories.includes(categorySelected))
+            } 
         })
-
         setListSlot(listSlotFiltered)
-
-    }, [ListcategorySelected])
+    
+    }, [listcategorySelected])
 
     useEffect(() => {
         filterByName(searchName)
@@ -83,21 +85,31 @@ const ListSlots: FunctionComponent<PageProps> = ({data}) => {
 
     return (
         <Fragment>
-            <h2>Top Games: </h2>
-            <Filter data={listCategory} filterByCategory={filterByCategory}/>
+            <ContainerGames>
+                <h2 style={{flexGrow: 1}}>Top Games:</h2>
+                <h2 style={{flexGrow: 1, textAlign: "right"}}>{listSlot.length} Games </h2>
+            </ContainerGames>
+            <Filter data={listCategory} listcategorySelected ={listcategorySelected} filterByCategory={filterByCategory}/>
             <ListSlotContainer>
                     {listSlot.map((slot:Game) => (
                         <Slot key={slot.gameName} data={slot}/>
                     ))}
-                </ListSlotContainer>
+            </ListSlotContainer>
+          
         </Fragment>
     )
 }
 
+
+const ContainerGames = styled.div`
+    display: flex;
+
+`
+
+
 const ListSlotContainer = styled.ul`
     display: flex;
     flex-flow: row wrap;
-    justify-content: start;
 `
 
 export default ListSlots

@@ -11,6 +11,7 @@ type Props = {
 
 const Layout = ({ children, title}: Props) => (
   <Fragment>
+    <Container>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
@@ -29,13 +30,18 @@ const Layout = ({ children, title}: Props) => (
       </NavContainer>
     </header>
       {children}
+      </Container>
   </Fragment>
 )
+
+const Container = styled.div`    
+  background-color: #F7F7F7;
+`
 
 const NavContainer = styled.nav`    
   display: flex;
   flex-direction: row;
-  border: 1px solid;
+  background-color: #F57A2D;
   padding: 10px
 `
 
@@ -50,7 +56,7 @@ const LinkContainer = styled.div`
   a {
     font-weight: bold;
     text-decoration: none;
-    color: black;
+    color: white;
   }
 
   a: hover {

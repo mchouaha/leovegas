@@ -4,11 +4,12 @@ import styled from 'styled-components'
 interface PageProps {
     data: string,
     filterByCategory: Function
+    selected: boolean
 }
 
-const Checkbox: FunctionComponent<PageProps> = ({data, filterByCategory}) => { 
+const Checkbox: FunctionComponent<PageProps> = ({data, filterByCategory, selected}) => { 
 
-    const [checked, setChecked] = useState<boolean>(false)
+    const [checked, setChecked] = useState<boolean>(selected)
 
     const checkCategory = (category: string) => {
 

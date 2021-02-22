@@ -5,9 +5,10 @@ import Checkbox from '../Checkbox'
 interface PageProps {
   data: string[],
   filterByCategory: Function
+  listcategorySelected: string[]
 }
 
-const Filter: FunctionComponent<PageProps> = ({data, filterByCategory}) => { 
+const Filter: FunctionComponent<PageProps> = ({data, filterByCategory, listcategorySelected}) => { 
 
   const [showFilter, setShowFilter] = useState<boolean>(false)
 
@@ -22,7 +23,8 @@ const Filter: FunctionComponent<PageProps> = ({data, filterByCategory}) => {
                     <Checkbox 
                       key={category} 
                       data={category}
-                      filterByCategory={filterByCategory}/>
+                      filterByCategory={filterByCategory}
+                      selected={listcategorySelected.some((categorySelected) => category.indexOf(categorySelected) !== -1)}/>
                 )}
               </form>
             </FilterMenu> : ''}
@@ -34,7 +36,6 @@ const Filter: FunctionComponent<PageProps> = ({data, filterByCategory}) => {
 const FilterContainer = styled.div` 
   display: flex;
   flex-direction: column;
-  align-items: center;
 `
 
 const FilterButton = styled.div`    
@@ -50,7 +51,6 @@ const FilterMenu = styled.div`
   width: auto;
   margin-top:5px;
   padding: 5px 10px;
-  border: 1px solid rgba(0,0,0,0.2);
 `
 
 export default Filter
